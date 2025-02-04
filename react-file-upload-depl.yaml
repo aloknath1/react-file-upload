@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment  # the kind of object we want to create
+metadata:   # Data that helps uniquely identify the object
+  name: react-file-upload-depl
+spec:
+  selector:
+    matchLabels:
+      app: react-file-upload-depl  # Needs to match template labels
+  replicas: 2     # Number of pods
+  template:
+    metadata:
+      labels:
+        app: react-file-upload-depl
+    spec:
+      containers:
+      - name: react-file-upload-c
+        image: docker-desktop://dashboard/build/desktop-linux/desktop-linux/untebi9p002w25rkeucax2w9e
+        ports:
+        - containerPort: 5173         
+          protocol: TCP          
+       
+        
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: react-file-upload-depl
+spec:
+  ports:
+  - port: 5173
+    protocol: TCP
+    targetPort: 5173
+  selector:
+    app: react-file-upload-depl
